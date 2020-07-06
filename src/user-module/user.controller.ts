@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Param, Delete, UsePipes, ValidationPipe, ParseIntPipe, ParseBoolPipe, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UsePipes, ValidationPipe, ParseIntPipe, ParseBoolPipe, Query, UseFilters, BadRequestException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './interface/user';
 import { UserDto, UserParamsDto } from './dto/user.dto';
+import { HttpExceptionFilter } from './filter';
 
 @Controller('users')
 export class UserController {
@@ -19,9 +20,14 @@ export class UserController {
 
   // HTTP GET /user
   @Get('/:email')
-  getUser(@Param() param: UserParamsDto): User {
-    return this.userService.getUser(param.email)
+  async getUser(@Param() param: UserParamsDto): Promise<User> {
+    try {
+       return await this.userService.getUser(param.email)
+    }catch(err){
+       throw new BadRequestException('test')
+    }
   }
+
   @Post()
   @UsePipes(new ValidationPipe(
 

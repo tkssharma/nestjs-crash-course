@@ -7,10 +7,10 @@ export class UserService {
   getUsers(): User [] {
     return this.users;
   }
-  getUser(email: string): User {
+  async getUser(email: string): Promise<User> {
     const userData = this.users.filter( i => i.email === email);
     if(userData && Array.isArray(userData) && userData.length > 0){
-        return userData[0]
+        return Promise.resolve(userData[0])
     }
     throw new NotFoundException('user not found');
   }

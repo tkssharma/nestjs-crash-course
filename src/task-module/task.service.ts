@@ -25,4 +25,7 @@ export class TaskService {
     public async getAllTasks(): Promise<Task []> {
         return this.taskStoreService.getAllTasks();
     }
+    public async filterTask(filter): Promise<Task []> {
+        return this.taskStoreService.filterTask(filter);
+    }
 }

@@ -30,12 +30,10 @@ export class CustomerController {
   async getCustomerById( @Param() param: CustomerParamDTO) {
     return await this.service.getCustomer(param.customerId);
   }
-
   @Delete('/')
   async deleteCustomerById(@Query('customerid') id: string) {
     return await this.service.getCustomer(id);
   }
-
   @Put('/')
   async updateCustomerById(@Res() res: Response, @Body() customerParam: Partial <CreateCustomerDTO>, @Query('customerid') id: string) {
     const data = await this.service.updateCustomer(id, customerParam);

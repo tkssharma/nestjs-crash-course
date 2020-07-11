@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Res, HttpStatus, Param, Delete, Put, Req, Query, Body } from '@nestjs/common';
+import { Controller, Get, Post, Res, HttpStatus, Param, Delete, Put, Req, Query, Body, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CustomerService } from '../services/customer.service';
 import { Response} from 'express';
-import { CreateCustomerDTO } from '../dto/customer.dto';
+import { CreateCustomerDTO, CustomerParamDTO } from '../dto/customer.dto';
+
+// REQUEST VLIDATION 
 
 @Controller('customers')
 export class CustomerController {
@@ -16,23 +18,22 @@ export class CustomerController {
 
   @Post()
   async  createCustomers(@Res() res: Response, @Body() customerParam: CreateCustomerDTO) {
+    try {
     const data = await this.service.createCustomer(customerParam);
     res.status(HttpStatus.OK).json(data);
+    } catch(err){
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
+    }
   }
 
-  @Get('customer/:customerId')
-  async getCustomerById(@Res() res: Response, @Param('customerId') id: string) {
-    const data = await this.service.getCustomer(id);
-    res.status(HttpStatus.OK).json(data);
+  @Get('/:customerId')
+  async getCustomerById( @Param() param: CustomerParamDTO) {
+    return await this.service.getCustomer(param.customerId);
   }
 
   @Delete('/')
-  async deleteCustomerById(@Res() res: Response, @Query('customerid') id: string) {
-    const data = await this.service.getCustomer(id);
-    res.status(HttpStatus.OK).json({
-      message : 'customer dleeted successfully',
-      data,
-    });
+  async deleteCustomerById(@Query('customerid') id: string) {
+    return await this.service.getCustomer(id);
   }
 
   @Put('/')

@@ -11,7 +11,6 @@ export class AppController {
     const data = await this.service.listCustomer();
     res.status(HttpStatus.OK).json(data);
   }
-
   @Get('/:customerid')
   async getCustomerById(@Res() res: Response, @Param('customerid') id: string) {
     const data = await this.service.getCustomer(id);

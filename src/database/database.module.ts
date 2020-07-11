@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-      MongooseModule.forRoot('mongodb://localhost:27017/test', { useNewUrlParser: true })
+      MongooseModule.forRoot('mongodb://192.168.100.4:27017/test', { useNewUrlParser: true })
   ],
   controllers: [],
   providers: [],
